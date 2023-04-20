@@ -129,7 +129,7 @@ namespace Lab5
                     
                     if (node.Color == Color.White)
                     {
-                        DFS(node);
+                        DFSVisit(node, new Dictionary<Node, Node>());
                         connectedComponents++;
                     }
                 }
