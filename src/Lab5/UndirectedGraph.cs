@@ -123,6 +123,17 @@ namespace Lab5
             {
                 int connectedComponents = 0;
 
+                ResetNodeColor();
+                foreach(var node in Nodes)
+                {
+                    
+                    if (node.Color == Color.White)
+                    {
+                        DFS(node);
+                        connectedComponents++;
+                    }
+                }
+
                 // for all the nodes
                 //     if node is white
                 //        connectedComponents++
@@ -145,7 +156,10 @@ namespace Lab5
         {
             ResetNodeColor();
 
-            return false;
+            var node1 = GetNodeByName(nodename1);
+            var node2 = GetNodeByName(nodename2);
+
+            return DFSVisit(node1, node2);
         }
 
         // TODO
@@ -262,6 +276,33 @@ namespace Lab5
         /// <returns></returns>
         private bool DFSVisit(Node currentNode, Node endingNode)
         {
+            Console.WriteLine(currentNode);
+            currentNode.Color = Color.Gray;
+
+            if (currentNode == endingNode)
+            {
+                return true;
+            }
+
+            // sort the neighbors so that we will visit in alphabetical order
+            currentNode.Neighbors.Sort();
+
+            foreach (var neighbor in currentNode.Neighbors)
+            {
+                if (neighbor.Color == Color.White)
+                {
+                    var isFound = DFSVisit(neighbor,endingNode);
+                    if (isFound == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+
+            currentNode.Color = Color.Black;
+
+
             // return true if endingNode is found
 
             // return false if endingNode is NOT found after visiting ALL connected nodes
